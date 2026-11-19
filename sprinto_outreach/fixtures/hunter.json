@@ -1,0 +1,128 @@
+{
+ "ledgerloop.example": {
+  "data": {
+   "organization": "LedgerLoop",
+   "emails": [
+    {
+     "value": "priya.raman@ledgerloop.example",
+     "type": "personal",
+     "confidence": 94,
+     "first_name": "Priya",
+     "last_name": "Raman",
+     "position": "Head of Security",
+     "seniority": "executive",
+     "department": "it",
+     "linkedin": null,
+     "sources": [
+      {
+       "domain": "ledgerloop.example"
+      }
+     ]
+    },
+    {
+     "value": "arjun@ledgerloop.example",
+     "type": "personal",
+     "confidence": 91,
+     "first_name": "Arjun",
+     "last_name": "Mehta",
+     "position": "CTO & Co-founder",
+     "seniority": "executive",
+     "department": "executive",
+     "linkedin": null,
+     "sources": [
+      {
+       "domain": "ledgerloop.example"
+      }
+     ]
+    },
+    {
+     "value": "maya.lopez@ledgerloop.example",
+     "type": "personal",
+     "confidence": 88,
+     "first_name": "Maya",
+     "last_name": "Lopez",
+     "position": "Marketing Manager",
+     "seniority": "senior",
+     "department": "marketing",
+     "linkedin": null,
+     "sources": []
+    }
+   ]
+  },
+  "meta": {
+   "results": 3
+  }
+ },
+ "medibook.example": {
+  "data": {
+   "organization": "MediBook",
+   "emails": [
+    {
+     "value": "sara@medibook.example",
+     "type": "personal",
+     "confidence": 88,
+     "first_name": "Sara",
+     "last_name": "Okafor",
+     "position": "CEO & Co-founder",
+     "seniority": "executive",
+     "department": "executive",
+     "linkedin": null,
+     "sources": [
+      {
+       "domain": "medibook.example"
+      }
+     ]
+    },
+    {
+     "value": "tom.reed@medibook.example",
+     "type": "personal",
+     "confidence": 79,
+     "first_name": "Tom",
+     "last_name": "Reed",
+     "position": "Sales Director",
+     "seniority": "senior",
+     "department": "sales",
+     "linkedin": null,
+     "sources": []
+    }
+   ]
+  },
+  "meta": {
+   "results": 2
+  }
+ },
+ "quietlabs.example": {
+  "data": {
+   "organization": "QuietLabs",
+   "emails": [
+    {
+     "value": "jo@quietlabs.example",
+     "type": "personal",
+     "confidence": 90,
+     "first_name": "Jo",
+     "last_name": "Park",
+     "position": "Head of Marketing",
+     "seniority": "executive",
+     "department": "marketing",
+     "linkedin": null,
+     "sources": []
+    },
+    {
+     "value": "sales@quietlabs.example",
+     "type": "generic",
+     "confidence": 95,
+     "first_name": null,
+     "last_name": null,
+     "position": null,
+     "seniority": null,
+     "department": "sales",
+     "linkedin": null,
+     "sources": []
+    }
+   ]
+  },
+  "meta": {
+   "results": 2
+  }
+ }
+}

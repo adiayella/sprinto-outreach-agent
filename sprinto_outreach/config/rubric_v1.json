@@ -1,0 +1,29 @@
+{
+  "version": "rubric_v1",
+  "qualify_threshold": 65,
+  "max_research_rounds": 3,
+  "max_new_pages_per_round": 2,
+  "max_pages_per_company": 12,
+  "dimensions": [
+    {"key": "fit", "label": "Business & technology fit", "weight": 25,
+     "level_2": "Explicit cloud software / SaaS or digital service that handles customer data",
+     "level_1": "Software or digital product, but unclear whether it is SaaS or handles customer data"},
+    {"key": "trust_exposure", "label": "Customer trust exposure", "weight": 20,
+     "level_2": "Enterprise plan/offering, named enterprise customers, or regulated customer segments (finance, health, government)",
+     "level_1": "Sells to businesses (B2B) but no explicit enterprise or regulated signal"},
+    {"key": "workload", "label": "Compliance workload", "weight": 25,
+     "level_2": "Explicit audit, framework (SOC 2, ISO 27001, GDPR, HIPAA, PCI), certification in progress, or ongoing controls",
+     "level_1": "Handles sensitive data or mentions security/privacy in general terms, without a named framework"},
+    {"key": "reason_now", "label": "Reason to engage now", "weight": 20,
+     "level_2": "Relevant hiring (security/GRC/compliance), audit or deadline dated within the last 6 months",
+     "level_1": "Dated expansion signal within 12 months (funding round, new market, enterprise launch)"},
+    {"key": "complexity", "label": "Delivery complexity", "weight": 10,
+     "level_2": "Multiple frameworks, environments, regions or products",
+     "level_1": "One framework or one product with several customer segments"}
+  ],
+  "funding_stage": {
+    "target": ["series a", "series b", "series c"],
+    "outside": ["pre-seed", "seed", "series d", "series e", "series f", "public", "ipo", "acquired"]
+  },
+  "competitors": ["sprinto", "vanta", "drata", "secureframe", "thoropass", "scrut", "hyperproof", "tugboat logic", "laika", "a-lign", "strike graph", "anecdotes"]
+}

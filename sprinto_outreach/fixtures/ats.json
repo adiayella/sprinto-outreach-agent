@@ -1,0 +1,20 @@
+{
+ "ashby:ledgerloop": {
+  "jobs": [
+   {
+    "title": "GRC Analyst",
+    "department": "Security & Compliance",
+    "location": "Remote, US",
+    "publishedAt": "2026-11-02T10:00:00Z",
+    "isListed": true
+   },
+   {
+    "title": "Senior Backend Engineer",
+    "department": "Engineering",
+    "location": "Bangalore",
+    "publishedAt": "2026-10-20T10:00:00Z",
+    "isListed": true
+   }
+  ]
+ }
+}

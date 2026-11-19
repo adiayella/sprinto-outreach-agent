@@ -1,0 +1,4 @@
+.env
+.env.*
+.venv/
+sprinto_outreach/data/*.sqlite3*

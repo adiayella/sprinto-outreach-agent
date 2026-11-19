@@ -1,0 +1,17 @@
+{
+  "version": "sources_v1",
+  "about": "Credibility tiers. Tier 1 = the company's own site and job boards linked from it (primary evidence). Tier 2 = credible press, wires and filings. Tier 3 = third-party databases: recorded as 'inferred' only, never enough on their own. Anything else = a lead: used to find a source, never as evidence.",
+  "tiers": {
+    "2": ["reuters.com", "bloomberg.com", "techcrunch.com", "wsj.com", "ft.com", "cnbc.com", "forbes.com", "axios.com",
+          "venturebeat.com", "siliconangle.com", "geekwire.com", "businessinsider.com", "fortune.com", "theinformation.com",
+          "sifted.eu", "eu-startups.com", "tech.eu", "finsmes.com", "fintechfutures.com", "fiercehealthcare.com",
+          "economictimes.indiatimes.com", "livemint.com", "moneycontrol.com", "inc42.com", "entrackr.com", "yourstory.com",
+          "business-standard.com", "thehindubusinessline.com", "vccircle.com", "ycombinator.com",
+          "prnewswire.com", "businesswire.com", "globenewswire.com", "accessnewswire.com", "sec.gov"],
+    "3": ["crunchbase.com", "tracxn.com", "pitchbook.com", "cbinsights.com", "dealroom.co", "owler.com", "growjo.com",
+          "zoominfo.com", "golden.com", "craft.co"]
+  },
+  "never_fetch": ["linkedin.com", "google.com", "bing.com", "duckduckgo.com", "facebook.com", "x.com", "twitter.com",
+                  "instagram.com", "youtube.com", "tiktok.com", "reddit.com", "glassdoor.com"],
+  "max_articles_per_search": 3
+}

@@ -1,0 +1,11 @@
+{
+  "version": "policy_v1",
+  "contact_role_order": ["compliance", "security", "cto", "founder"],
+  "contact_pass_score": 8,
+  "pain_pass_score": 7,
+  "email_min_words": 70,
+  "email_max_words": 135,
+  "email_eval_pass": 8,
+  "email_max_revisions": 2,
+  "sender_name": "Growth team, Sprinto"
+}

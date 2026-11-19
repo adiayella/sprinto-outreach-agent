@@ -1,0 +1,14 @@
+{
+  "version": "capabilities_v1",
+  "product": "Sprinto",
+  "one_liner": "Sprinto automates compliance programs (SOC 2, ISO 27001, GDPR, HIPAA and more) for cloud companies.",
+  "capabilities": [
+    {"id": "evidence_automation", "text": "connects to cloud, HR and code tools and collects audit evidence automatically"},
+    {"id": "continuous_monitoring", "text": "monitors controls continuously and flags drift before the auditor does"},
+    {"id": "multi_framework", "text": "maps one set of controls across SOC 2, ISO 27001, GDPR and HIPAA so work isn't repeated"},
+    {"id": "audit_ready_fast", "text": "gets teams audit-ready without hiring a dedicated compliance team first"},
+    {"id": "security_reviews", "text": "keeps a trust centre and answers to security questionnaires current for enterprise deals"},
+    {"id": "policies_training", "text": "ships policy templates and tracks employee security training and device checks"}
+  ],
+  "forbidden": ["guarantee", "100%", "pricing", "price", "discount", "free trial", "%"]
+}

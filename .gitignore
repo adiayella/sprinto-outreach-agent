@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.vercel/
+sprinto_outreach/data/*.sqlite3*
+sprinto_outreach/data/gemini_holds.json

@@ -1,0 +1,20 @@
+{
+ "/": "<html><head><title>MediBook \u2014 patient scheduling for modern clinics</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>MediBook \u2014 patient scheduling for modern clinics</h1><p>MediBook is a cloud scheduling platform that clinics use to book appointments and send patient reminders.</p><p>Our SaaS product stores patient appointment details and contact information for each clinic.</p><p><a href=\"/pricing\">Pricing</a></p><p><a href=\"/about\">About</a></p></main><footer>\u00a9 2026</footer></body></html>",
+ "/pricing": "<html><head><title>Plans</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>Plans</h1><p>Clinic and Network plans are available.</p><p>The Enterprise plan for hospital networks adds SSO, role-based access and a signed BAA.</p></main><footer>\u00a9 2026</footer></body></html>",
+ "/about": "<html><head><title>About MediBook</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>About MediBook</h1><p>MediBook was founded by doctors who were tired of no-show appointments.</p><p>Today we serve over 300 clinics in the US and Germany.</p><p><a href=\"/trust\">Trust center</a></p><p><a href=\"/careers\">Join the team</a></p></main><footer>\u00a9 2026</footer></body></html>",
+ "/trust": "<html><head><title>MediBook Trust Center</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>MediBook Trust Center</h1><p>MediBook is HIPAA compliant and signs a BAA with every US customer.</p><p>We are preparing for our first SOC 2 Type II audit, planned for early 2027.</p><p>For clinics in Germany we process patient data under GDPR with EU data residency.</p></main><footer>\u00a9 2026</footer></body></html>",
+ "/careers": "<html><head><title>Careers</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>Careers</h1><p>Open roles: Compliance Manager (HIPAA, SOC 2) \u2014 Remote</p><p>Open roles: Backend Engineer \u2014 Berlin</p></main><footer>\u00a9 2026</footer></body></html>",
+ "/sitemap.xml": "<urlset><url><loc>https://medibook.example/trust</loc></url><url><loc>https://medibook.example/careers</loc></url><url><loc>https://medibook.example/pricing</loc></url></urlset>",
+ "__search__": [
+  {
+   "text": "MediBook announced a $12M Series A in March 2026 to expand into European clinics.",
+   "source_title": "news.example",
+   "source_uri": "https://news.example/medibook-series-a"
+  },
+  {
+   "text": "A video about scheduling apps.",
+   "source_title": "youtube.com",
+   "source_uri": "https://youtube.com/watch?v=x"
+  }
+ ]
+}

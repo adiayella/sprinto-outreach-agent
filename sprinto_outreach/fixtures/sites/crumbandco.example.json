@@ -1,0 +1,4 @@
+{
+ "/": "<html><head><title>Crumb & Co \u2014 artisan bakery</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>Crumb & Co \u2014 artisan bakery</h1><p>Crumb & Co is a family-run artisan bakery in Portland baking sourdough bread every morning.</p><p>Visit our bakery cafe or order a celebration cake for pickup.</p><p><a href=\"/about\">Our story</a></p></main><footer>\u00a9 2026</footer></body></html>",
+ "/about": "<html><head><title>Our story</title></head><body><nav><a href=\"/\">Home</a><a href=\"/product\">Product</a><a href=\"/login\">Log in</a></nav><main><h1>Our story</h1><p>We have been baking bread and pastries in Portland since 1998.</p></main><footer>\u00a9 2026</footer></body></html>"
+}
