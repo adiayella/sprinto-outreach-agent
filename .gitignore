@@ -10,3 +10,4 @@ __pycache__/
 .vercel/
 sprinto_outreach/data/*.sqlite3*
 sprinto_outreach/data/gemini_holds.json
+.vercel

@@ -5,6 +5,8 @@ QUEUED -> RESEARCHING (steps 1-3, bounded loop) -> QUALIFIED -> CONTACT_SELECTED
 from __future__ import annotations
 
 import re
+import threading
+import time
 import traceback
 
 import httpx
@@ -31,6 +33,7 @@ STEPS = {1: "Scrape website", 2: "Extract facts", 3: "Qualify vs ICP", 4: "Find 
 TERMINAL = {"SENT", "DRY_RUN_RECORDED", "SENT_SIMULATED", "DISQUALIFIED", "LOW_PRIORITY",
             "INSUFFICIENT_EVIDENCE", "NO_SUITABLE_CONTACT", "PAIN_EVIDENCE_THIN", "EMAIL_QA_FAILED"}
 PAUSED = {"NEEDS_SETUP", "WAITING_QUOTA", "NEEDS_HUMAN", "SEND_UNCERTAIN"}
+SERVERLESS_BUDGET_S = 25
 ASSET_RE = re.compile(r"\.(png|jpe?g|gif|svg|webp|pdf|zip|mp4|css|js|xml|ico)$", re.I)
 
 
@@ -53,6 +56,10 @@ class Pause(Exception):
         self.outcome, self.reason = outcome, reason
 
 
+class Yield(Exception):
+    """Serverless time budget used up: progress is saved and the next request carries on from here."""
+
+
 class Stop(Exception):
     def __init__(self, outcome: str, reason: str):
         super().__init__(reason)
@@ -64,6 +71,14 @@ class Pipeline:
         self.s = settings
         self.stores: dict[str, Store] = {}
         self.pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="prospect")
+        self._tl = threading.local()  # per-request deadline (serverless instances serve requests concurrently)
+
+    def _checkpoint(self, p: dict) -> None:
+        """On serverless, stop at a safe point once the request's time budget is used; everything is saved."""
+        deadline = getattr(self._tl, "deadline", None)
+        if deadline and time.monotonic() > deadline:
+            self.st.save(p)
+            raise Yield()
 
     # ---- plumbing ---------------------------------------------------------
     @property
@@ -142,8 +157,12 @@ class Pipeline:
         if not st.set_busy(pid, True):
             return
         p = st.prospect(pid)
+        # Vercel cuts requests at ~60 s, so each serverless request works for ~25 s, then hands over.
+        self._tl.deadline = time.monotonic() + SERVERLESS_BUDGET_S if self.s.serverless else None
         try:
             self._process(st, p)
+        except Yield:
+            st.save(p)
         except Pause as e:
             self._step(p, p["step"] or 1, "paused", e.reason)
             st.save(p, outcome=e.outcome, outcome_reason=e.reason)
@@ -169,7 +188,11 @@ class Pipeline:
 
     def _process(self, st: Store, p: dict) -> None:
         self.st = st
+        first = True
         while True:
+            if not first:  # always make at least one step of progress per request
+                self._checkpoint(p)
+            first = False
             stage = p["stage"]
             if stage in ("QUEUED", "RESEARCHING"):
                 self.research(p)
@@ -351,7 +374,11 @@ class Pipeline:
         self._step(p, 1, "done", f"{len(ok_pages)} pages read")
 
         max_rounds = rubric["max_research_rounds"] + d.get("extra_rounds", 0)
+        first_round = True
         while True:
+            if not first_round:
+                self._checkpoint(p)
+            first_round = False
             round_no = len(d["rounds"]) - 1
             todo = [pg for pg in st.pages(p["id"]) if pg["ok"] and pg["source_type"] != "search_lead"
                     and pg["pid"] not in d.get("extracted", [])]
@@ -562,6 +589,8 @@ class Pipeline:
         contact, pains = d["contact"], d["pains"]["chosen"]
         attempts, feedback = [], ""
         for i in range(1 + pol["email_max_revisions"]):
+            if i:
+                self._checkpoint(p)
             self._step(p, 6, "running", "Writing email" if i == 0 else f"Revising email ({i}/{pol['email_max_revisions']})")
             parts = get_llm(self.s).generate_json(
                 "email", EG.build_prompt(company, contact, pains, evidence, feedback), EmailParts,
