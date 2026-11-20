@@ -322,6 +322,8 @@ async function loadStatus(){
   S.status = await api("/api/status");
   const r = S.status.readiness;
   $$("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.mode===r.mode));
+  $$("#modeSeg button").forEach(b => b.classList.toggle("hide", !!S.status.live_only && b.dataset.mode!=="real_demo"));
+  $("#modeSeg").style.gridTemplateColumns = S.status.live_only ? "1fr" : "";
   $("#recipient").textContent = r.recipient;
   $("#modeHint").innerHTML = {
     simulation: "Fake companies & offline AI. Nothing leaves this machine.",

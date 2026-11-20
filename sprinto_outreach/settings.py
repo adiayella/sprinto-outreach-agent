@@ -46,6 +46,7 @@ class Settings:
     database_url: str = ""
     app_password: str = ""
     serverless: bool = False
+    live_only: bool = False
 
     @property
     def mail_provider(self) -> str:
@@ -81,7 +82,7 @@ class Settings:
 
 
 def load_settings() -> Settings:
-    mode = _env("SPRINTO_MODE", default="simulation")
+    mode = "real_demo" if _env("LIVE_ONLY").lower() == "true" else _env("SPRINTO_MODE", default="simulation")
     if mode not in MODES:
         mode = "simulation"
     gmail = _env("GMAIL_ADDRESS", "GMAIL_SENDER_ADDRESS")
@@ -101,6 +102,7 @@ def load_settings() -> Settings:
         database_url=_env("DATABASE_URL", "POSTGRES_URL"),
         app_password=_env("APP_PASSWORD"),
         serverless=ON_VERCEL or _env("SERVERLESS").lower() == "true",
+        live_only=_env("LIVE_ONLY").lower() == "true",
     )
 
 

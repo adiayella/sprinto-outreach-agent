@@ -37,7 +37,7 @@ async def gate(request: Request, call_next):
         if not ok:
             return PlainTextResponse("Password required", 401,
                                      headers={"WWW-Authenticate": 'Basic realm="Sprinto Outreach Agent"'})
-    if settings.database_url:  # serverless instances share the selected mode through the database
+    if settings.database_url and not settings.live_only:  # instances share the selected mode via the database
         try:
             settings.mode = pipe.state_store().get_state("mode") or _DEFAULT_MODE
         except Exception:  # noqa: BLE001 — never block the page on this
@@ -64,7 +64,7 @@ def status():
         llm_status = {"chain": [], "error": str(e)}
     return {"readiness": settings.readiness(), "llm": llm_status, "versions": versions(), "modes": list(MODES),
             "steps": STEPS, "real_sends_enabled": settings.real_sends_enabled, "sender": settings.sender_name,
-            "serverless": settings.serverless}
+            "serverless": settings.serverless, "live_only": settings.live_only}
 
 
 class ModeIn(BaseModel):
@@ -75,6 +75,8 @@ class ModeIn(BaseModel):
 def set_mode(body: ModeIn):
     if body.mode not in MODES:
         raise HTTPException(400, "unknown mode")
+    if settings.live_only and body.mode != "real_demo":
+        raise HTTPException(400, "this deployment is Live only")
     settings.mode = body.mode
     if settings.database_url:
         pipe.state_store().set_state("mode", body.mode)
