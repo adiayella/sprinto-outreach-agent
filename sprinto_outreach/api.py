@@ -25,7 +25,7 @@ _DEFAULT_MODE = settings.mode
 async def gate(request: Request, call_next):
     """Password gate (HTTP Basic, any username) whenever APP_PASSWORD is set. On a public deployment without a
     password every request is refused, so nobody else can spend your API quotas or trigger sends."""
-    if settings.app_password or settings.serverless:
+    if settings.app_password:  # optional: set APP_PASSWORD to require a login
         ok = False
         header = request.headers.get("authorization", "")
         if settings.app_password and header.lower().startswith("basic "):
@@ -35,8 +35,6 @@ async def gate(request: Request, call_next):
             except (ValueError, UnicodeDecodeError):
                 ok = False
         if not ok:
-            if not settings.app_password:
-                return PlainTextResponse("Locked: set APP_PASSWORD in the deployment's environment variables.", 503)
             return PlainTextResponse("Password required", 401,
                                      headers={"WWW-Authenticate": 'Basic realm="Sprinto Outreach Agent"'})
     if settings.database_url:  # serverless instances share the selected mode through the database
