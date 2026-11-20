@@ -230,8 +230,6 @@ pre.env{background:var(--panel-2);border:1px solid var(--line);border-radius:10p
     <div class="brand"><div class="logo">S</div><div><b>Outreach Agent</b><span>Cold outreach for Sprinto</span></div></div>
     <nav class="nav" id="nav">
       <button data-view="pipeline" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h12M3 18h7"/></svg>Pipeline<span class="count hide" id="needsCount">0</span></button>
-      <button data-view="rubric"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>ICP rubric &amp; rules</button>
-      <button data-view="setup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Integrations</button>
     </nav>
     <div class="side-foot">
       <div class="lbl">Mode</div>
@@ -277,18 +275,6 @@ pre.env{background:var(--panel-2);border:1px solid var(--line);border-radius:10p
         <div class="tbl-head"><b id="runTitle">Companies</b><span class="small muted" id="runMeta"></span></div>
         <div id="tableWrap"></div>
       </div>
-    </section>
-
-    <!-- RUBRIC -->
-    <section id="v-rubric" class="hide">
-      <div class="top"><div><h1>ICP rubric &amp; rules</h1><div class="sub">The LLM proposes; code decides. These versioned files are what the code enforces.</div></div></div>
-      <div id="rubricBody"></div>
-    </section>
-
-    <!-- SETUP -->
-    <section id="v-setup" class="hide">
-      <div class="top"><div><h1>Integrations</h1><div class="sub">Keys live in <span class="mono">.env</span> on this machine only. Restart the server after editing.</div></div></div>
-      <div id="setupBody"></div>
     </section>
   </main>
 </div>
@@ -610,54 +596,11 @@ document.addEventListener("mouseover", e => {
 });
 document.addEventListener("mouseout", e => { if (e.target.closest("[data-ev]")) tip.classList.remove("on") });
 
-// ---------- rubric & setup views ----------
-async function renderRubric(){
-  const c = await api("/api/config");
-  const r = c.rubric_v1, cap = c.capabilities_v1, pol = c.policy_v1, src = c.sources_v1;
-  $("#rubricBody").innerHTML = `
-  <div class="sec"><h3>Qualification rubric <span class="pill acc">${esc(r.version)}</span></h3><div class="card">${r.dimensions.map(d => `<div class="dim"><div class="nm">${esc(d.label)}<small>weight ${d.weight}</small></div><div class="rs"><b>Level 2:</b> ${esc(d.level_2)}<br><b>Level 1:</b> ${esc(d.level_1)}</div><div class="pts">${d.weight}</div></div>`).join("")}</div>
-    <p class="small muted">Points = weight × level / 2. <b>Qualified</b> needs ≥ ${r.qualify_threshold}, fit = 2 and workload ≥ 1. If even the best case can't reach the threshold → low priority. Funding outside Series A–C (${r.funding_stage.outside.join(", ")}) → low priority. Competitors (${r.competitors.join(", ")}) → disqualified. Up to ${r.max_research_rounds} extra research rounds, ${r.max_new_pages_per_round} pages each, ${r.max_pages_per_company} pages max.</p></div>
-  <div class="grid2">
-    <div class="sec"><h3>Approved product claims <span class="pill acc">${esc(cap.version)}</span></h3><div class="card pad small">${cap.capabilities.map(x=>`<div style="margin-bottom:6px"><span class="mono">${esc(x.id)}</span> — ${esc(x.text)}</div>`).join("")}</div></div>
-    <div class="sec"><h3>Policy <span class="pill acc">${esc(pol.version)}</span></h3><div class="card pad small">
-      Contact preference: ${pol.contact_role_order.join(" → ")}<br>Contact pass: ≥ ${pol.contact_pass_score}/10<br>Pain hypothesis pass: ≥ ${pol.pain_pass_score}/10 (two distinct)<br>
-      Email: ${pol.email_min_words}–${pol.email_max_words} words, one question, evaluator ≥ ${pol.email_eval_pass}/10, ≤ ${pol.email_max_revisions} revisions</div></div></div>
-  <div class="sec"><h3>Source credibility <span class="pill acc">${esc(src.version)}</span></h3><div class="card pad small">
-    <p style="margin-top:0">${esc(src.about)}</p>
-    <b>Tier 2 · credible press:</b> ${src.tiers["2"].map(esc).join(", ")}<br><br>
-    <b>Tier 3 · inferred only:</b> ${src.tiers["3"].map(esc).join(", ")}<br><br>
-    <b>Never fetched:</b> ${src.never_fetch.map(esc).join(", ")}</div></div>`;
-}
-async function renderSetup(){
-  await loadStatus();
-  const r = S.status.readiness, l = S.status.llm;
-  const st = v => v==="ready"?`<span class="pill ok"><span class="d"></span>Ready</span>`: v==="simulated"?`<span class="pill acc">Simulated</span>`:`<span class="pill bad"><span class="d"></span>Missing</span>`;
-  $("#setupBody").innerHTML = `
-  <div class="grid2">
-    <div class="card integ"><div class="h">Gemini ${st(r.gemini)}</div><p>Extraction, qualification proposals, pains, email and the evaluator. Google Search grounding for gaps.</p>
-      <p class="small" style="margin-top:8px">${l.error?`<span style="color:var(--bad)">${esc(l.error)}</span>`:`Model chain: ${(l.chain||[]).map(m=>`<span class="mono">${esc(m)}</span>`).join(" → ")||"—"}`}${Object.keys(l.holds||{}).length?`<br>On hold: ${Object.entries(l.holds).map(([m,h])=>`${esc(m)} (${esc(h.why)})`).join(", ")}`:""}</p></div>
-    <div class="card integ"><div class="h">Hunter.io ${st(r.hunter.startsWith("ready")?"ready":r.hunter)}</div><p>Domain Search for decision-makers (free plan: 50 searches/month; each company is looked up once and cached). ${r.hunter.startsWith("missing")?"Without it, add contacts manually from Apollo.":""}</p></div>
-    <div class="card integ"><div class="h">Email sending · ${r.mail_provider==="resend"?"Resend":"Gmail"} ${st(r.gmail)}</div><p>${r.mail_provider==="resend"?"Resend API (test sender onboarding@resend.dev — Resend only delivers to your own sign-up email).":"Gmail SMTP with an App Password."} Only ever to the demo inbox. Set <span class="mono">RESEND_API_KEY</span> to use Resend, otherwise Gmail is used.</p></div>
-    <div class="card integ"><div class="h">Demo inbox ${r.recipient.startsWith("missing")?st("missing"):`<span class="pill ok"><span class="d"></span>Locked</span>`}</div><p class="mono">${esc(r.recipient)}</p></div>
-  </div>
-  <div class="sec" style="margin-top:18px"><h3>.env template</h3><pre class="env">SPRINTO_MODE=dry_run           # simulation | dry_run | real_demo
-GEMINI_API_KEY=                 # aistudio.google.com → Get API key
-GEMINI_FREE_TIER=true
-HUNTER_API_KEY=                 # hunter.io → API
-RESEND_API_KEY=                 # resend.com → API keys (used instead of Gmail when set)
-GMAIL_ADDRESS=you@gmail.com      # only needed without Resend
-GMAIL_APP_PASSWORD=             # Google Account → Security → 2-Step Verification → App passwords
-DEMO_RECIPIENT_EMAIL=you@gmail.com   # the ONLY address that ever receives mail
-REAL_SENDS_ENABLED=false        # set true for real_demo to actually send
-SENDER_NAME=Your Name, Sprinto</pre></div>`;
-}
 
 $("#nav").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   $$("#nav button").forEach(x => x.classList.toggle("on", x===b));
-  ["pipeline","rubric","setup"].forEach(v => $("#v-"+v).classList.toggle("hide", v!==b.dataset.view));
-  if (b.dataset.view==="rubric") renderRubric();
-  if (b.dataset.view==="setup") renderSetup();
+  $("#v-pipeline").classList.remove("hide");
 });
 
 // ---------- serverless driver: no background workers on Vercel, so the page asks the server to process
